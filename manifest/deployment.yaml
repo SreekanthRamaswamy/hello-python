@@ -26,6 +26,7 @@ spec:
     metadata:
       labels:
         app: hello-python
+      namespace: default
     spec:
       containers:
       - name: hello-python
