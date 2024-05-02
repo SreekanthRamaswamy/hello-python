@@ -1,35 +1,73 @@
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+
+kind: Deployment
+
 metadata:
-  name: hello-python-service
-  namespace: default
+
+name: hello-python-deployment
+
+labels:
+
+app: hello-python
+
+namespace: default
+
 spec:
-  selector:
-    app: hello-python
-  ports:
-  - protocol: "TCP"
-    port: 6000
-    targetPort: 5000
-  type: NodePort
+
+replicas: 2
+
+selector:
+
+matchLabels:
+
+app: hello-python
+
+template:
+
+metadata:
+
+labels:
+
+app: hello-python
+
+spec:
+
+containers:
+
+- name: hello-python
+
+image: 2023mt03015/hello-python:latest
+
+ports:
+
+- containerPort: 80
 
 ---
-apiVersion: apps/v1
-kind: Deployment
+
+# Nodeport service to expose the application
+
+apiVersion: v1
+
+kind: Service
+
 metadata:
-  name: hello-python
+
+name: hello-python-service
+
+namespace: default
+
 spec:
-  selector:
-    matchLabels:
-      app: hello-python
-  replicas: 2
-  template:
-    metadata:
-      labels:
-        app: hello-python
-      namespace: default
-    spec:
-      containers:
-      - name: hello-python
-        image: 2023mt03015/hello-python:latest
-        ports:
-        - containerPort: 5000
+
+selector:
+
+app: hello-python
+
+ports:
+
+- protocol: TCP
+
+port: 80
+
+targetPort: 80
+
+type: NodePort
