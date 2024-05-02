@@ -28,6 +28,6 @@ spec:
     spec:
       containers:
       - name: hello-python
-        image: 2023mt03015/hello-python:latest
+        image: hello-python:latest
         ports:
         - containerPort: 5000
