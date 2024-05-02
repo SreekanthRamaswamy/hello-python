@@ -12,6 +12,20 @@ spec:
     targetPort: 5000
   type: NodePort
 
+  apiVersion: v1
+kind: Service
+metadata:
+  name: hello-python-preview-service
+  namespace: default
+spec:
+  selector:
+    app: hello-python
+  ports:
+  - protocol: "TCP"
+    port: 6000
+    targetPort: 5000
+  type: NodePort
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -33,3 +47,53 @@ spec:
         image: 2023mt03015/hello-python:latest
         ports:
         - containerPort: 5000
+
+        apiVersion: argoproj.io/v1alpha1
+
+kind: Rollout
+
+metadata:
+
+name: hello-python-rollout
+
+namespace: default
+
+spec:
+
+replicas: 1
+
+selector:
+
+matchLabels:
+
+app: hello-python
+
+strategy:
+
+blueGreen:
+
+activeService: hello-python-service
+
+previewService: hello-python-preview-service
+
+autoPromotionEnabled: true
+
+template:
+
+metadata:
+
+labels:
+
+app: hello-python
+
+spec:
+
+containers:
+
+- name: hello-python
+
+image: 2023mt03015/hello-python-preview:latest
+
+ports:
+
+- containerPort: 5000
