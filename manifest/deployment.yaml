@@ -17,32 +17,9 @@ spec:
       - name: hello-python
         image: 2023mt03015/hello-python:latest
         ports:
-        - containerPort: 80
+        - containerPort: 5000
 
-kind: Rollout
-metadata:
-  name: hello-python-rollout
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: hello-python
-  strategy:
-    blueGreen:
-      activeService: hello-python-service
-      previewService: hello-python-preview-service
-      autoPromotionEnabled: true
-  template:
-    metadata:
-      labels:
-        app: hello-python
-    spec:
-      containers:
-      - name: hello-python
-        image: 2023mt03015/hello-python-preview:latest
-        ports:
-        - containerPort: 80
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,19 +30,7 @@ spec:
     app: hello-python
   ports:
   - protocol: "TCP"
-    port: 7000
-    targetPort: 80
+    port: 6000
+    targetPort: 5000
   type: LoadBalancer
 
-kind: Service
-metadata:
-  name: hello-python-preview-service
-  namespace: default
-spec:
-  selector:
-    app: hello-python
-  ports:
-  - protocol: "TCP"
-    port: 6000
-    targetPort: 80
-  type: LoadBalancer
