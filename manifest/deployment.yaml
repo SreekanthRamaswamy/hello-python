@@ -33,17 +33,3 @@ spec:
     port: 6000
     targetPort: 5000
   type: NodePort
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: hello-python-preview-service
-  namespace: default
-spec:
-  selector:
-    app: hello-python
-  ports:
-  - protocol: "TCP"
-    port: 6000
-    targetPort: 5000
-  type: NodePort
