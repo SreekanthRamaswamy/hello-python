@@ -18,7 +18,7 @@ spec:
         image: 2023mt03015/hello-python:latest
         ports:
         - containerPort: 80
-apiVersion: argoproj.io/v1alpha1
+
 kind: Rollout
 metadata:
   name: hello-python-rollout
@@ -56,7 +56,7 @@ spec:
     port: 6000
     targetPort: 80
   type: LoadBalancer
-apiVersion: v1
+
 kind: Service
 metadata:
   name: hello-python-preview-service
