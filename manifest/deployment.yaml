@@ -53,7 +53,7 @@ spec:
     app: hello-python
   ports:
   - protocol: "TCP"
-    port: 6000
+    port: 7000
     targetPort: 80
   type: LoadBalancer
 
